@@ -5,7 +5,8 @@ const createUserToken = (user) => {
 };
 
 const createJWT = ({ payload }) => {
-  const token = jwt.sign(payload, process.env.JWT_SECRET, {
+  const userToken = createUserToken(payload);
+  const token = jwt.sign(userToken, process.env.JWT_SECRET, {
     expiresIn: process.env.JWT_LIFETIME,
   });
   return token;
@@ -27,4 +28,4 @@ const attachCookiesToResponse = ({ res, user }) => {
   });
 };
 
-module.exports = { attachCookiesToResponse, isTokenValid };
+module.exports = { attachCookiesToResponse, isTokenValid, createJWT };

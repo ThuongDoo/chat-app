@@ -6,29 +6,38 @@ const cookieParser = require("cookie-parser");
 const connectDB = require("./db/connectDB");
 const { Server } = require("socket.io");
 
-const authRouter = require("./api/routes/authRoutes");
-const onConnection = require("./socket");
-
 const app = express();
 const server = createServer(app);
 const io = new Server(server);
 
-app.use(express.json());
-app.use(cookieParser(process.env.JWT_SECRET));
+const roomHandler = require("./socket/controllers/roomHandler");
+const messageHandler = require("./socket/controllers/messageHandler");
+const authHandler = require("./socket/controllers/authHandler");
+const { authentication } = require("./middlewares/authentication");
 
-io.engine.use(cookieParser(process.env.JWT_SECRET));
-io.engine.use((req, res, next) => {
-  const token = req.signedCookies.token;
-  console.log("token", token);
-});
-
+const onConnection = (socket) => {
+  socket.use((packet, next) => {
+    if (packet[0] !== "login" && packet[0] != "register") {
+      authentication(socket, next);
+    } else {
+      next();
+    }
+  });
+  roomHandler(io, socket);
+  messageHandler(io, socket);
+  authHandler(io, socket);
+  socket.on("disconnect", () => {
+    console.log("disconnect");
+  });
+  socket.onAny((event, ...args) => {
+    console.log("\n", event, args);
+  });
+};
 io.on("connection", onConnection);
 
 app.get("/", (req, res) => {
   res.send("helo");
 });
-
-app.use("/api/auth", authRouter);
 
 const port = process.env.PORT || 3000;
 const start = async () => {

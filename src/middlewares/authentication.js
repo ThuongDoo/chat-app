@@ -1,15 +1,14 @@
 const { StatusCodes } = require("http-status-codes");
 const { isTokenValid } = require("../utils/jwt");
-const authentication = (req, res, next) => {
-  const token = req.signedCookies.token;
-  console.log("token", req);
-  if (!token) {
-    return res
-      .status(StatusCodes.UNAUTHORIZED)
-      .json({ error: "Unauthenticated" });
+const authentication = (socket, next) => {
+  const token = socket.handshake.auth.userToken;
+  console.log("token", token);
+  try {
+    const { phone, name } = isTokenValid({ token });
+  } catch (error) {
+    socket.emit("error", "Invalid Credential");
+    socket.disconnect();
   }
-  const { phone, name, password } = isTokenValid({ token });
-  req.user = { phone, name, password };
   next();
 };
 
