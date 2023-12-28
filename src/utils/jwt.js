@@ -1,7 +1,12 @@
 const jwt = require("jsonwebtoken");
 
 const createUserToken = (user) => {
-  return { name: user.name, password: user.password, phone: user.phone };
+  return {
+    _id: user._id,
+    name: user.name,
+    password: user.password,
+    phone: user.phone,
+  };
 };
 
 const createJWT = ({ payload }) => {

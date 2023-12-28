@@ -14,6 +14,7 @@ const roomHandler = require("./socket/controllers/roomHandler");
 const messageHandler = require("./socket/controllers/messageHandler");
 const authHandler = require("./socket/controllers/authHandler");
 const { authentication } = require("./middlewares/authentication");
+const userHandler = require("./socket/controllers/userHandler");
 
 const onConnection = (socket) => {
   socket.use((packet, next) => {
@@ -26,6 +27,7 @@ const onConnection = (socket) => {
   roomHandler(io, socket);
   messageHandler(io, socket);
   authHandler(io, socket);
+  userHandler(io, socket);
   socket.on("disconnect", () => {
     console.log("disconnect");
   });
@@ -33,10 +35,11 @@ const onConnection = (socket) => {
     console.log("\n", event, args);
   });
 };
+
 io.on("connection", onConnection);
 
 app.get("/", (req, res) => {
-  res.send("helo");
+  res.sendFile(__dirname + "/public/index.html");
 });
 
 const port = process.env.PORT || 3000;

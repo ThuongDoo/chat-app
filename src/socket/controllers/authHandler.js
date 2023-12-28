@@ -26,11 +26,16 @@ const authHandler = (io, socket) => {
     if (!isPasswordCorrect) {
       return socket.emit("error", "Incorrect password");
     }
+
+    // test
+    // user.friends = [];
+    // user.friendRequests = [];
+    // await user.save();
+    // test
     const userToken = createJWT({ payload: user });
-    console.log(userToken);
     socket.handshake.auth = { userToken };
-    socket.data.user = { name: user.name, phone: user.phone };
-    socket.emit("success", "success");
+    socket.data.user = { name: user.name, phone: user.phone, _id: user._id };
+    socket.emit("success", user);
   };
 
   const logout = async () => {
