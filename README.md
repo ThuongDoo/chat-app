@@ -36,7 +36,7 @@
 ### success
 
 - **Name:** `success`
-- **Description:** Triggered when an operation is successful.
+- **Description:** Triggered when a request is successful, and returns the data after that request.
 
 ### friendRequest
 
