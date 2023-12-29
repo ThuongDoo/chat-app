@@ -1,146 +1,206 @@
-# Realtime Chat API Documentation
+# Client API Documentation
 
-## Client Version
+## Settings
 
-- **v3**: Specifies the client version to be used for connecting with the server.
+### Client Version
 
-## Handshake Path
+- **Name:** `Client version`
+- **Type:** String
+- **Description:** Specifies the version of the client that will be used for connecting with the server.
+- **Example:** `v3`
 
-- **/socket.io**: Server path used during the handshake request.
+### Handshake Path
+
+- **Name:** `Handshake path`
+- **Type:** String
+- **Description:** Specifies the server path that will be used during the handshake request.
+- **Example:** `/socket.io`
 
 ## Events
 
-### 1. **newMessage**
+### newMessage
 
-- **Description**: Event triggered when a new message is received.
+- **Name:** `newMessage`
+- **Description:** Triggered when a new message is received.
 
-### 2. **updateUsers**
+### userJoin
 
-- **Description**: Event triggered when the list of users is updated.
+- **Name:** `userJoin`
+- **Description:** Triggered when a user joins the chat.
 
-### 3. **error**
+### error
 
-- **Description**: Event triggered when an error occurs.
+- **Name:** `error`
+- **Description:** Triggered when an error occurs.
 
-### 4. **success**
+### success
 
-- **Description**: Event triggered when an operation is successful.
+- **Name:** `success`
+- **Description:** Triggered when an operation is successful.
 
-### 5. **friendRequest**
+### friendRequest
 
-- **Description**: Event triggered when a friend request is received.
-- **Payload Type**: JSON
-- **Payload Example**:
+- **Name:** `friendRequest`
+- **Description:** Triggered when a friend request is received.
+
+### sendMessage
+
+- **Name:** `sendMessage`
+- **Description:** Triggered when a message is sent.
+- **Payload Type:** JSON
+- **Example:**
   ```json
   {
-    "friendId": "658c4206f12565ffd78d92b8"
+    "roomId": "658ebdf5814ce63ae8c0e106",
+    "message": "Xin chao"
   }
   ```
 
-### 6. **sendMessage**
+### joinRoom
 
-- **Description**: Event to send a message.
-- **Payload Type**: JSON
-- **Payload Example**:
+- **Name:** `joinRoom`
+- **Description:** Triggered when a user joins a chat room.
+- **Payload Type:** JSON
+- **Example:**
   ```json
   {
-    "roomId": "658dc0ecd1f8e1c62e9d881c",
-    "message": "xin chao ban hhao ho"
+    "roomId": "658ebdf5814ce63ae8c0e106"
   }
   ```
 
-### 7. **joinRoom**
+### register
 
-- **Description**: Event to join a chat room.
-- **Payload Type**: JSON
-- **Payload Example**:
+- **Name:** `register`
+- **Description:** Triggered when a user registers.
+- **Payload Type:** JSON
+- **Example:**
   ```json
   {
-    "roomId": "658dc0ecd1f8e1c62e9d881c"
+    "name": "thuongdo3",
+    "password": "123456",
+    "phone": "1234563"
   }
   ```
 
-### 8. **register**
+### logout
 
-- **Description**: Event for user registration.
-- **Payload Type**: JSON
-- **Payload Example**:
+- **Name:** `logout`
+- **Description:** Triggered when a user logs out.
+- **Payload Type:** JSON
+
+### login
+
+- **Name:** `login`
+- **Description:** Triggered when a user logs in.
+- **Payload Type:** JSON
+- **Example:**
   ```json
   {
-    "name": "thuonthuong",
-    "password": "123451",
-    "phone": "123415"
+    "name": "thuongdo2",
+    "password": "123456",
+    "phone": "1234562"
   }
   ```
 
-### 9. **logout**
+### sendFriendRequest
 
-- **Description**: Event for user logout.
-- **Payload Type**: JSON
-- **Payload Example**:
+- **Name:** `sendFriendRequest`
+- **Description:** Triggered when a user sends a friend request.
+- **Payload Type:** JSON
+- **Example:**
   ```json
   {
-    "name": "thuonthuong",
-    "password": "123451",
-    "phone": "123415"
+    "friendId": "658ea588243d1a39bcac0b64"
   }
   ```
 
-### 10. **login**
+### addFriend
 
-- **Description**: Event for user login.
-- **Payload Type**: JSON
-- **Payload Example**:
+- **Name:** `addFriend`
+- **Description:** Triggered when a friend is added.
+- **Payload Type:** JSON
+- **Example:**
   ```json
   {
-    "name": "thuonthuong",
-    "password": "123451",
-    "phone": "123415"
+    "friendId": "658ea560243d1a39bcac0b60"
   }
   ```
 
-### 11. **sendFriendRequest**
+### showMe
 
-- **Description**: Event to send a friend request.
-- **Payload Type**: JSON
-- **Payload Example**:
-  ```json
-  {
-    "friendId": "658c4206f12565ffd78d92b8"
-  }
-  ```
+- **Name:** `showMe`
+- **Description:** Triggered to display user information.
+- **Payload Type:** Text
 
-### 12. **addFriend**
+### addRoomMember
 
-- **Description**: Event to add a friend.
-- **Payload Type**: JSON
-- **Payload Example**:
-  ```json
-  {
-    "friendId": "658c4206f12565ffd78d92b8"
-  }
-  ```
-
-### 13. **showMe**
-
-- **Description**: Event to display user information.
-- **Payload Type**: Text
-
-### 14. **addRoomMember**
-
-- **Description**: Event to add members to a chat room.
-- **Payload Type**: JSON
-- **Payload Example**:
+- **Name:** `addRoomMember`
+- **Description:** Triggered when a user is added to a chat room.
+- **Payload Type:** JSON
+- **Example:**
   ```json
   {
     "members": [
       "658c4206f12565ffd78d92b8",
       "658d4da7dd9dac31a0c3d4bc",
-      "658db9e89a24b011960e3eb8"
-    ]
+      "658db9e89a24b011960e3eb8",
+      "658ea560243d1a39bcac0b60"
+    ],
+    "roomId": "658eb50b0b8723ab0050ed92"
   }
   ```
 
----
+### createRoomChat
 
-This documentation provides details on the events, their purposes, and the expected payload format for your Realtime Chat API. Refer to this guide to seamlessly integrate the API into your frontend application.
+- **Name:** `createRoomChat`
+- **Description:** Triggered when a chat room is created.
+- **Payload Type:** JSON
+- **Example:**
+  ```json
+  {
+    "members": ["658ebd6a814ce63ae8c0e0eb", "658ebd5e814ce63ae8c0e0e8"]
+  }
+  ```
+
+### createDualChat
+
+- **Name:** `createDualChat`
+- **Description:** Triggered when a dual chat is created.
+- **Payload Type:** JSON
+- **Example:**
+  ```json
+  {
+    "memberId": "658ea588243d1a39bcac0b64"
+  }
+  ```
+
+### deleteRoomMember
+
+- **Name:** `deleteRoomMember`
+- **Description:** Triggered when a user is removed from a chat room.
+- **Payload Type:** JSON
+- **Example:**
+  ```json
+  {
+    "roomId": "658eb1018dd19ebf694ac49b",
+    "members": ["658ea588243d1a39bcac0b64", "658ea58e243d1a39bcac0b67"]
+  }
+  ```
+
+### getUserRooms
+
+- **Name:** `getUserRooms`
+- **Description:** Returns information about user rooms.
+- **Payload Type:** Text
+
+### getRoomMessages
+
+- **Name:** `getRoomMessages`
+- **Description:** Retrieves messages from a chat room.
+- **Payload Type:** JSON
+- **Example:**
+  ```json
+  {
+    "roomId": "658ebdf5814ce63ae8c0e106"
+  }
+  ```

@@ -14,8 +14,18 @@ const RoomSchema = mongoose.Schema(
     admin: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
-      required: true,
     },
+    type: {
+      type: String,
+      enum: ["dual", "group"],
+      default: "dual",
+    },
+    messages: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Message",
+      },
+    ],
   },
   { timestamps: true }
 );

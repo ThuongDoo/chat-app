@@ -1,5 +1,6 @@
 const Room = require("../../models/Room");
 const User = require("../../models/User");
+const { createDualChat } = require("./roomHandler");
 
 const sendFriendRequest = async (io, socket, payload) => {
   const { _id } = socket.data.user;
@@ -34,8 +35,9 @@ const addFriend = async (io, socket, payload) => {
   const add = async (userId, friendId) => {
     try {
       const user = await User.findById(userId);
-      if (!user) {
-        throw new Error(`userId: ${userId} is not exist`);
+      const friend = await User.findById(friendId);
+      if (!friend) {
+        throw new Error(`userId: ${friendId} is not exist`);
       }
       const isFriendExist = user.friends.includes(friendId);
       if (isFriendExist) {
@@ -51,6 +53,7 @@ const addFriend = async (io, socket, payload) => {
         throw new Error("Friend request is not exist");
       }
     } catch (error) {
+      console.log(error.message);
       return error;
     }
   };
@@ -58,12 +61,13 @@ const addFriend = async (io, socket, payload) => {
   const { friendId } = payload;
   const addUser = await add(_id, friendId);
   const addFr = await add(friendId, _id);
-  console.log("tese", addUser, addFr);
   if (addUser !== true) {
-    return socket.emit("error", addUser);
+    return socket.emit("error", addUser.message);
   } else if (addFr !== true) {
-    return socket.emit("error", addFr);
+    return socket.emit("error", addFr.message);
   } else {
+    await createDualChat(io, socket, (payload = { memberId: friendId }));
+
     socket.emit("success", "success");
   }
 };

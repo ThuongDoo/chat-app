@@ -10,7 +10,7 @@ const app = express();
 const server = createServer(app);
 const io = new Server(server);
 
-const roomHandler = require("./socket/controllers/roomHandler");
+const { roomHandler } = require("./socket/controllers/roomHandler");
 const messageHandler = require("./socket/controllers/messageHandler");
 const authHandler = require("./socket/controllers/authHandler");
 const { authentication } = require("./middlewares/authentication");
