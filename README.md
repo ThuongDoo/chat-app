@@ -47,6 +47,8 @@ These events are used to listen for incoming messages from the server.
 
 ## Emitting Events
 
+These events are used to send messages or requests from the client to the server.
+
 ### Register and Login for Functionality Access
 
 #### register
