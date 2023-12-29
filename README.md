@@ -18,6 +18,8 @@
 
 ## Listening Events
 
+These events are used to listen for incoming messages from the server.
+
 ### newMessage
 
 - **Name:** `newMessage`
